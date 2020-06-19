@@ -8,7 +8,6 @@
 - [Install the Prerequisites](docs/prerequisites.md)
 - [Build & Deploy the App](docs/build-deploy.md)
 {% endif %}
-
 Add some details about this project...
 
 ## Versioning
