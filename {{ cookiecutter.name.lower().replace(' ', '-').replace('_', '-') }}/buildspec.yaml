@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing build dependencies
+  pre_build:
+    commands:
+      - echo Configuring build
+  build:
+    commands:
+      - echo Build started on `date`
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - printf '{"name":"cookiecutter.name"}' > build.json
+artifacts:
+  files: build.json
