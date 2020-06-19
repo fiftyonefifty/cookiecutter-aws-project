@@ -8,7 +8,7 @@ A [Cookiecutter](https://github.com/cookiecutter/cookiecutter) template to help 
 * [Invoke](https://www.pyinvoke.org/) script: A helper script designed to build Lambda packages
 * More on the way!
 
-## Getting Started
+## Usage
 
 Install Cookiecutter:
 
@@ -20,6 +20,45 @@ Create a project:
 
 ```bash
 cookiecutter https://github.com/fiftyonefifty/cookiecutter-aws-project
+```
+
+Answer the prompts, and a new project will be created for you.
+
+```shell
+cookiecutter https://github.com/fiftyonefifty/cookiecutter-aws-project
+
+full_name [Name/Company Name (used for licensing)]: First Last
+name [Repo Name]: demo
+version [0.1.0]: 0.1.0
+description [New project description]: This is a demo app
+Select project_type:
+1 - Generic
+2 - Serverless
+Choose from 1, 2 [1]: 2
+Select ci:
+1 - AWS Pipeline (AWS CodeBuild)
+2 - Jenkins
+3 - None
+Choose from 1, 2, 3 [1]: 1
+Select open_source_license:
+1 - MIT license
+2 - BSD license
+3 - ISC license
+4 - Apache Software License 2.0
+5 - GNU General Public License v3
+6 - Not open source
+Choose from 1, 2, 3, 4, 5, 6 [1]: 4
+```
+
+Enter the project and initialize a new git repository.
+
+```shell
+cd example
+git init
+git add .
+git commit -am 'initializing'
+git remote add origin <git repo>
+git push -u origin master
 ```
 
 ## Contributing
