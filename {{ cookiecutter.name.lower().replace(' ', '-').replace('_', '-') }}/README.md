@@ -5,8 +5,8 @@
 ## Get Started
 
 {% if cookiecutter.project_type == 'Serverless' -%}
-- [Install the Prerequisites](/docs/prerequisites.md)
-- [Build & Deploy the App](/docs/build-deploy.md)
+- [Install the Prerequisites](docs/prerequisites.md)
+- [Build & Deploy the App](docs/build-deploy.md)
 {% endif %}
 
 Add some details about this project...
