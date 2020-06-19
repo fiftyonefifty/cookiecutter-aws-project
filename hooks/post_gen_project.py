@@ -54,7 +54,9 @@ def configure_serverless() -> None:
                 'lambdas',
                 'requirements-dev.txt',
                 'template.yaml',
-                'tasks.py'
+                'tasks.py',
+                'docs/build-deploy.md'
+                'docs/prerequisites.md'
             ]
         )
 
