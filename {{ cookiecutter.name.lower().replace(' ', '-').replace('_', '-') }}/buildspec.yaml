@@ -13,6 +13,6 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - printf '{"name":"cookiecutter.name"}' > build.json
+      - printf '{"name":"{{cookiecutter.name}}"}' > build.json
 artifacts:
   files: build.json
