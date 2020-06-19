@@ -17,4 +17,4 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-- **{{cookicutter.full_name}}**
+- **{{cookiecutter.full_name}}**
