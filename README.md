@@ -19,7 +19,7 @@ pip install --upgrade cookiecutter
 Create a project:
 
 ```bash
-cookiecutter ...
+cookiecutter https://github.com/fiftyonefifty/cookiecutter-aws-project
 ```
 
 ## Contributing
