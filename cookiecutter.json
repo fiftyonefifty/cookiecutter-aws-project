@@ -1,0 +1,23 @@
+{
+  "full_name": "Name/Company Name (used for licensing)",
+  "name": "Repo Name",
+  "version": "0.1.0",
+  "description": "New project description",
+  "project_type": [
+    "Generic",
+    "Serverless"
+  ],
+  "ci": [
+    "AWS Pipeline (AWS CodeBuild)",
+    "Jenkins",
+    "None"
+  ],
+  "open_source_license": [
+    "MIT license",
+    "BSD license",
+    "ISC license",
+    "Apache Software License 2.0",
+    "GNU General Public License v3",
+    "Not open source"
+  ]
+}

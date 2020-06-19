@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  {{cookiecutter.description}}
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: App Configuration
+        Parameters:
+          - AppName
+          - AppVersion
+          - S3BucketName
+          - S3BucketPrefix
+          - AssumeRoleArn
+    ParameterLabels:
+      AppName:
+        default: App Name
+      AppVersion:
+        default: App Version
+      S3BucketName:
+        default: S3 Bucket Name
+      S3BucketPrefix:
+        default: S3 Bucket Prefix
+      AssumeRoleArn:
+        default: Assume Role Arn
+Parameters:
+  AppName:
+    Description: Name of the application and associated resources.
+    Type: String
+    Default: "{{cookiecutter.name}}"
+  AppVersion:
+    Description: Version number of the underlying Lambda functions.
+    Type: String
+    Default: "{{cookiecutter.version}}"
+  S3BucketName:
+    Description: S3 Bucket Name where code is located.
+    Type: String
+    Default: "bootstrap-repository"
+  S3BucketPrefix:
+    Description: The prefix or directory where resources will be stored.
+    Type: String
+    Default: "{{cookiecutter.name}}"
+  AssumeRoleArn:
+    Description: The Arn of the role required to obtain Organization details.
+    Type: String
+Resources:
+
+  # Layers
+  LambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: !Sub "${AppName}Layer"
+      Description: Reusable libraries
+      CompatibleRuntimes:
+        - python3.8
+      Content:
+        S3Bucket: !Ref S3BucketName
+        S3Key: !Sub "${S3BucketPrefix}/layers_${AppVersion}.zip"
+
+  # Accounts Table Manager
+  DemoFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Obtains the latest list of Account Ids and updates DDB
+      FunctionName: !Sub "${AppName}-AccountsManager"
+      Code:
+        S3Bucket: !Ref S3BucketName
+        S3Key: !Sub "${S3BucketPrefix}/accounts_manager_${AppVersion}.zip"
+      Handler: main.lambda_handler
+      Runtime: python3.8
+      Layers:
+        - !Ref LambdaLayer
+      Role: !GetAtt AccountsManagerFunctionRole.Arn
+      Timeout: 180
+      MemorySize: 256
+      Environment:
+        Variables:
+          DDB_ACCOUNTS_TABLE_NAME: !Ref AccountsTable
+          ASSUME_ROLE_ARN: !Ref AssumeRoleArn
+  AccountsManagerRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Scheduled trigger for AMIShareAccountsFunction"
+      ScheduleExpression: "rate(1 day)"
+      State: "ENABLED"
+      Targets:
+        - Arn: !GetAtt AccountsManagerFunction.Arn
+          Id: AMIShareAccountsFuncSchedule
+  AccountsManagerRulePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref AccountsManagerFunction
+      Action: "lambda:InvokeFunction"
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt AccountsManagerRule.Arn
